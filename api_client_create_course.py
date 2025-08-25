@@ -10,13 +10,7 @@ from faker import Faker
 public_users_client = get_public_users_client()
 fake = Faker()
 # Создаем пользователя
-create_user_request = CreateUserRequestSchema(
-    email=fake.email(),
-    password="string",
-    last_name="string",  # Передаем аргументы в формате snake_case вместо camelCase
-    first_name="string",  # Передаем аргументы в формате snake_case вместо camelCase
-    middle_name="string"  # Передаем аргументы в формате snake_case вместо camelCase
-)
+create_user_request = CreateUserRequestSchema()
 create_user_response = public_users_client.create_user(create_user_request)
 
 # Инициализируем клиенты
@@ -28,21 +22,13 @@ files_client = get_files_client(authentication_user)
 courses_client = get_courses_client(authentication_user)
 
 # Загружаем файл
-create_file_request = CreateFileRequestSchema(
-    filename="image.png",
-    directory="courses",
-    upload_file="./testdata/files/image.jpg"
+create_file_request = CreateFileRequestSchema(upload_file="./testdata/files/image.jpg"
 )
 create_file_response = files_client.create_file(create_file_request)
 print('Create file data:', create_file_response)
 
 # Создаем курс
 create_course_request = CreateCourseRequestSchema(
-    title="Python",
-    maxScore=100,
-    minScore=10,
-    description="Python API course",
-    estimatedTime="2 weeks",
     previewFileId=create_file_response.file.id,
     createdByUserId=create_user_response.user.id
 )

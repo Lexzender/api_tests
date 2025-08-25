@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
+from tools.fakers import fake
+
 
 class UserSchema(BaseModel):
     """
@@ -20,11 +22,14 @@ class CreateUserRequestSchema(BaseModel):
     """
     model_config = ConfigDict(populate_by_name=True)
 
-    email: EmailStr
-    password: str
-    last_name: str = Field(alias="lastName")
-    first_name: str = Field(alias="firstName")
-    middle_name: str = Field(alias="middleName")
+    email: EmailStr = Field(default_factory=fake.email)
+    # default_factory позволяет установить значение по умолчанию,
+    # вызывая функцию при каждом создании экземпляра модели.
+    # В данном случае email будет автоматически заполняться случайным значением.
+    password: str = Field(default_factory=fake.password)
+    last_name: str = Field(alias="lastName", default_factory=fake.last_name)
+    first_name: str = Field(alias="firstName", default_factory=fake.first_name)
+    middle_name: str = Field(alias="middleName", default_factory=fake.middle_name)
 
 
 class CreateUserResponseSchema(BaseModel):
@@ -41,10 +46,10 @@ class UpdateUserRequestSchema(BaseModel):
     #Эта настройка позволяет обращаться к полям по их Python-именам (snake_case) при создании экземпляров моделей.
     model_config = ConfigDict(populate_by_name=True)
 
-    email: EmailStr | None
-    last_name: str | None = Field(alias="lastName")
-    first_name: str | None = Field(alias="firstName")
-    middle_name: str | None = Field(alias="middleName")
+    email: EmailStr | None = Field(default_factory=fake.email)
+    last_name: str | None = Field(alias="lastName", default_factory=fake.last_name)
+    first_name: str | None = Field(alias="firstName", default_factory=fake.first_name)
+    middle_name: str | None = Field(alias="middleName", default_factory=fake.middle_name)
 
 
 class UpdateUserResponseSchema(BaseModel):
@@ -59,3 +64,4 @@ class GetUserResponseSchema(BaseModel):
     Описание структуры запроса получения пользователя.
     """
     user: UserSchema
+
