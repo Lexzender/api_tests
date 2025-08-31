@@ -1,4 +1,4 @@
-from clients.courses.course_schema import  GetCoursesQuerySchema, CreateCourseRequestSchema, CreateCourseResponseSchema, UpdateCourseRequestSchema
+from clients.courses.courses_schema import  GetCoursesQuerySchema, CreateCourseRequestSchema, CreateCourseResponseSchema, UpdateCourseRequestSchema
 from httpx import Response
 
 from clients.api_client import APIClient
