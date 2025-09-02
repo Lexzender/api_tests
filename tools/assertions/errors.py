@@ -32,7 +32,9 @@ def assert_validation_error_response(
     assert_length(actual.details, expected.details, "details")
 
     for index, detail in enumerate(expected.details):
+
         assert_validation_error(actual.details[index], detail)
+
 
 def assert_internal_error_response(
         actual: InternalErrorResponseSchema,
@@ -47,6 +49,7 @@ def assert_internal_error_response(
     """
     assert_equal(actual.details, expected.details, "details")
 
+
 def assert_file_not_found_response(actual: InternalErrorResponseSchema):
     """
     Функция для проверки ошибки, если файл не найден на сервере.
@@ -58,3 +61,5 @@ def assert_file_not_found_response(actual: InternalErrorResponseSchema):
     expected = InternalErrorResponseSchema(details="File not found")
     # Используем ранее созданную функцию для проверки внутренней ошибки
     assert_internal_error_response(actual, expected)
+
+
